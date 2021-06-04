@@ -13,11 +13,16 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="ProductEntity")
+<<<<<<< HEAD
 public class ProductEntity implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+=======
+public class ProductEntity implements Serializable {
+	private static final long serialVersionUID=1L;
+>>>>>>> 6b48a66b3ff76ff3b66f1bf94fa834b256f5be1a
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="productId")
