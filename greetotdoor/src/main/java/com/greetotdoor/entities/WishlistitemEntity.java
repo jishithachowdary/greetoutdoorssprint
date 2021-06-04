@@ -5,15 +5,22 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name="WishListitemEntity")
 public class WishlistitemEntity implements Serializable{
-	private static final long serializableUID=1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="wishListId")
@@ -21,7 +28,12 @@ public class WishlistitemEntity implements Serializable{
 	@Column(name="userId")
 	private String userId;
 	@Column(name="productIds")
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="product_id",nullable=false)
+	
 	private List<String> productids;
+	
 	public int getWishListId() {
 		return wishListId;
 	}

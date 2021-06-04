@@ -3,26 +3,28 @@ package com.greetotdoor.entities;
 
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name="ProductEntity")
-<<<<<<< HEAD
+
 public class ProductEntity implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-=======
-public class ProductEntity implements Serializable {
-	private static final long serialVersionUID=1L;
->>>>>>> 6b48a66b3ff76ff3b66f1bf94fa834b256f5be1a
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="productId")
@@ -43,6 +45,10 @@ public class ProductEntity implements Serializable {
 	String manufacturer;
 	@Column(name="specification")
 	String specification;
+	
+	@OneToMany(mappedBy="productids",cascade=CascadeType.ALL)
+	private Set<WishlistitemEntity> wishlist= new HashSet<WishlistitemEntity>();
+	
 	public int getProductId() {
 		return productId;
 	}
@@ -96,6 +102,13 @@ public class ProductEntity implements Serializable {
 	}
 	public void setSpecification(String specification) {
 		this.specification = specification;
+	}
+		
+	public Set<WishlistitemEntity> getWishlist() {
+		return wishlist;
+	}
+	public void setWishlist(Set<WishlistitemEntity> wishlist) {
+		this.wishlist = wishlist;
 	}
 	@Override
 	public String toString() {
