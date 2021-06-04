@@ -6,21 +6,21 @@ import com.greetotdoor.entities.ProductEntity;
 import com.greetotdoor.exception.ProductException;
 
 public interface IProductRepository{
-	public List<ProductEntity> findAllProducts();
+	 List<ProductEntity> findAllProducts();
 
-	public ProductEntity findByProductId(String id);
+	 ProductEntity findByProductId(String id);
 
-	public List<ProductEntity> findByProductCategory(String productCategory);
+	 List<ProductEntity> findByProductCategory(String productCategory);
 
-	public ProductEntity addProduct(ProductEntity productEntity) throws ProductException;
+	 ProductEntity addProduct(ProductEntity productEntity) throws ProductException;
 
-	public ProductEntity updateProduct(ProductEntity productEntity) throws ProductException;
+	 ProductEntity updateProduct(ProductEntity productEntity) throws ProductException;
 
-	public void updateProductQuantity(Integer quantity,String productId);
+	 void updateProductQuantity(Integer quantity,String productId);
 
-	public void deleteByProductId(String id) throws ProductException;
+	 void deleteByProductId(String id) throws ProductException;
 
-	public List<ProductEntity> search(String keyword);
+	 List<ProductEntity> search(String keyword);
 
-	public List<ProductEntity> filter(double maxPrice);
+	 List<ProductEntity> filter(double maxPrice);
 }

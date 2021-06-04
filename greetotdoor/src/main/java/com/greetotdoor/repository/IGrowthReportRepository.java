@@ -7,12 +7,12 @@ import com.greetotdoor.exception.GrowthReportException;
 import com.greetotdoor.exception.SalesReportException;
 
 public interface IGrowthReportRepository{
-	public List<GrowthReport> findAllGrowthReport();
+	 List<GrowthReport> findAllGrowthReport();
 
-	public void addGrowthReport() throws SalesReportException;
+	 void addGrowthReport() throws SalesReportException;
 
-	public void deleteAllGrowthReport() throws GrowthReportException;
+	 void deleteAllGrowthReport() throws GrowthReportException;
 
-	public void deleteGrowthReportById(Long growthReportId) throws GrowthReportException;
+	 void deleteGrowthReportById(Long growthReportId) throws GrowthReportException;
 }
 
