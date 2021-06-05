@@ -19,7 +19,7 @@ public class OrderEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO,generator = "orderentity_generator")
-	@SequenceGenerator(name="orderentity_generator", sequenceName="s_customer", allocationSize=5)
+	@SequenceGenerator(name="orderentity_generator", sequenceName="S_ORDER", allocationSize=1)
 	@Column(name="ORDER_ID")
 	private String orderId;
 	/*@Column(name="USER_ID")

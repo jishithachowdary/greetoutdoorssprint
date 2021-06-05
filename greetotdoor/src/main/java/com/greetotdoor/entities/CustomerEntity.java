@@ -2,6 +2,7 @@ package com.greetotdoor.entities;
 
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -28,8 +30,9 @@ public class CustomerEntity implements Serializable{
 	private String mobile_no;
 	@Column(name="EMAIL")
 	private String email;
-	@Column(name="ADDRESS")
-	private String address;
+	
+	@OneToMany(mappedBy="customer",fetch=FetchType.LAZY)
+	private Set<AddressEntity> address;
 	
 	@OneToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	private UserData user;
@@ -65,15 +68,19 @@ public class CustomerEntity implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getAddress() {
+	public Set<AddressEntity> getAddress() {
 		return address;
 	}
-	public void setAddress(String address) {
+	public void setAddress(Set<AddressEntity> address) {
 		this.address = address;
+		for(AddressEntity t:address) {
+			t.setCustomer(this);
+		
 	}
-	@Override
-	public String toString() {
-		return "CustomerEntity [customer_id=" + customer_id + ", customer_name=" + customer_name + ", mobile_no="
-				+ mobile_no + ", email=" + email + ", address=" + address + ", user=" + user + "]";
 	}
+	public void addAddress(AddressEntity address) {
+		this.address.add(address);
+	}
+
+
 }

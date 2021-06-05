@@ -6,16 +6,24 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "ADDRESS_TABLE")
 public class AddressEntity implements Serializable{
 	public static final long serialVersionUID = 901514215648120L;
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO,generator = "add_gen")
+	@SequenceGenerator(name="add_gen", sequenceName="s_customer", allocationSize=1)
 	@Column(name="ADDRESS_ID")
 	private int address_id;	
 	@Column(name="BUILDING_NO")
@@ -30,9 +38,10 @@ public class AddressEntity implements Serializable{
 	private String state;
 	@Column(name="ZIP")
 	private String zip;
-	@Column(name="CUSTOMER_ID")
-	private int customer_id;
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CUSTOMER_ID")
+	@JsonIgnore
+	private CustomerEntity customer;
 	//getters and setters
 	
 	public int getAddress_id() {
@@ -77,12 +86,13 @@ public class AddressEntity implements Serializable{
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
-	public int getCustomer_id() {
-		return customer_id;
+	public CustomerEntity getCustomer() {
+		return customer;
 	}
-	public void setCustomer_id(int customer_id) {
-		this.customer_id = customer_id;
+	public void setCustomer(CustomerEntity customer) {
+		this.customer = customer;
 	}
+	
 }
 	
 	

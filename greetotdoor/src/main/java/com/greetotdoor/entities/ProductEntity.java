@@ -3,21 +3,28 @@ package com.greetotdoor.entities;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
-@Table(name="ProductEntity")
+@Table(name="Product_Table")
 
 public class ProductEntity implements Serializable{
 	/**
@@ -26,33 +33,41 @@ public class ProductEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="productId")
-	private int productId;
-	@Column(name="productName")
+	@GeneratedValue(strategy=GenerationType.AUTO,generator = "pro_gen")
+	@SequenceGenerator(name="pro_gen", sequenceName="s_product", allocationSize=1)
+	@Column(name="PRODUCT_ID")
+	private String productId;
+	@Column(name="PRODUCT_NAME")
 	private String productName;
-	@Column(name="price")
+	@Column(name="PRICE")
 	double price;
-	@Column(name="image")
+	@Column(name="IMAGE")
 	String image;
-	@Column(name="colour")
+	@Column(name="COLOR")
 	String colour;
-	@Column(name="category")
+	@Column(name="CATEGORY")
 	String category;
-	@Column(name="quantity")
+	@Column(name="QUANTITY")
 	int quantity;
-	@Column(name="manufacturer")
+	@Column(name="MANUFACTURE")
 	String manufacturer;
-	@Column(name="specification")
+	@Column(name="SPECIFICATION")
 	String specification;
 	
-	@OneToMany(mappedBy="productids",cascade=CascadeType.ALL)
-	private Set<WishlistitemEntity> wishlist= new HashSet<WishlistitemEntity>();
+	@ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="product")
+	private Set<WishlistitemEntity> wishlist=new HashSet<>();
+
 	
-	public int getProductId() {
+	public Set<WishlistitemEntity> getWishlist() {
+		return wishlist;
+	}
+	public void setWishlist(Set<WishlistitemEntity> wishlist) {
+		this.wishlist = wishlist;
+	}
+	public String getProductId() {
 		return productId;
 	}
-	public void setProductId(int productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 	public String getProductName() {
@@ -104,18 +119,11 @@ public class ProductEntity implements Serializable{
 		this.specification = specification;
 	}
 		
-	public Set<WishlistitemEntity> getWishlist() {
-		return wishlist;
+	public void addwishlist(WishlistitemEntity wishlist) {
+		this.wishlist.add(wishlist);
 	}
-	public void setWishlist(Set<WishlistitemEntity> wishlist) {
-		this.wishlist = wishlist;
-	}
-	@Override
-	public String toString() {
-		return "ProductEntity [productId=" + productId + ", productName=" + productName + ", price=" + price
-				+ ", image=" + image + ", colour=" + colour + ", category=" + category + ", quantity=" + quantity
-				+ ", manufacturer=" + manufacturer + ", specification=" + specification + "]";
-	}
+	
+	
 	
 	
 	

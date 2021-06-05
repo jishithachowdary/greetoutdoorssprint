@@ -20,7 +20,7 @@ public class CartItemEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO,generator = "cartitem_generator")
-	@SequenceGenerator(name="cartitem_generator", sequenceName="s_customer", allocationSize=5)
+	@SequenceGenerator(name="cartitem_generator", sequenceName="S_CART", allocationSize=1)
 	@Column(name="CART_ID")
 	private int cartId;
 	/*@Column(name="USER_ID")
