@@ -2,6 +2,7 @@ package com.greetotdoor.entities;
 
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -18,6 +20,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "CUSTOMER_TABLE")
+@NamedQuery(name="Customer.getById",query="select c from CustomerEntity c,AddressEntity a where a.customer=c")
 public class CustomerEntity implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO,generator = "cus_gen")
@@ -31,21 +34,13 @@ public class CustomerEntity implements Serializable{
 	@Column(name="EMAIL")
 	private String email;
 	
-	@OneToMany(mappedBy="customer",fetch=FetchType.LAZY)
-	private Set<AddressEntity> address;
-	
-	@OneToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-	private UserData user;
+	@OneToMany(mappedBy="customer",fetch=FetchType.LAZY,cascade = CascadeType.ALL)
+	private Set<AddressEntity> address=new HashSet<>();
+
 	//getters and setters
 	
 	public int getCustomer_id() {
 		return customer_id;
-	}
-	public UserData getUser() {
-		return user;
-	}
-	public void setUser(UserData user) {
-		this.user = user;
 	}
 	public void setCustomer_id(int customer_id) {
 		this.customer_id = customer_id;
@@ -73,10 +68,9 @@ public class CustomerEntity implements Serializable{
 	}
 	public void setAddress(Set<AddressEntity> address) {
 		this.address = address;
-		for(AddressEntity t:address) {
-			t.setCustomer(this);
-		
-	}
+		for(AddressEntity a:address) {
+			a.setCustomer(this);
+		}
 	}
 	public void addAddress(AddressEntity address) {
 		this.address.add(address);

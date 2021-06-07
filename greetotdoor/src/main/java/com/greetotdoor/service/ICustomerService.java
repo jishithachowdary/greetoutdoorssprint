@@ -10,5 +10,5 @@ public interface ICustomerService {
 	public CustomerEntity addCustomer(CustomerEntity customer);
 	public CustomerEntity updateCustomer(CustomerEntity customer);
 	public void removeCustomer(CustomerEntity customer);
-	public CustomerEntity viewCustomer(CustomerEntity customer) throws Exception;
+	public CustomerEntity viewCustomer(CustomerEntity customer) ;
 }

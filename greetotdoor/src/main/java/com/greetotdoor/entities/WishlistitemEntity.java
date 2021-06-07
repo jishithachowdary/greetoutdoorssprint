@@ -16,14 +16,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
 @Table(name="WHISHLISTITEM_TABLE")
+//@NamedQuery(name="WishlistitemEntity.getByUserId",query="select w from WishlistitemEntity w where w.userId=?1")
+//@NamedQuery(name="WishlistitemEntity.getByProductId",query="select w from WishlistitemEntity w,ProductEntity p where p.wishlist=w And p.productId=?1 And w.userId=?2")
+//@NamedQuery(name="WishlistitemEntity.deleteByUserId",query="delete WishlistitemEntity from WishlistitemEntity w ,ProductEntity p  where p.wishlist=w And w.userId=?1")
 public class WishlistitemEntity implements Serializable{
 	/**
 	 * 
@@ -41,6 +47,8 @@ public class WishlistitemEntity implements Serializable{
 	joinColumns= {@JoinColumn(name="WHISHLIST_IS")},inverseJoinColumns= {@JoinColumn(name="PRODUCT_ID")})
 	@JsonIgnore
 	private Set<ProductEntity> product =new HashSet<>();
+	
+	
 	public Set<ProductEntity> getProduct() {
 		return product;
 	}

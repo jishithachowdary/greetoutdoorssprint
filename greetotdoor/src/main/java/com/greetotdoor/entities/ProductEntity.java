@@ -56,8 +56,10 @@ public class ProductEntity implements Serializable{
 	
 	@ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="product")
 	private Set<WishlistitemEntity> wishlist=new HashSet<>();
-
-	
+//
+//	@ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="pc")
+//	private Set<CartItemEntity> cart=new HashSet<>();
+//	
 	public Set<WishlistitemEntity> getWishlist() {
 		return wishlist;
 	}
@@ -122,11 +124,16 @@ public class ProductEntity implements Serializable{
 	public void addwishlist(WishlistitemEntity wishlist) {
 		this.wishlist.add(wishlist);
 	}
-	
-	
-	
-	
-	
+//	public Set<CartItemEntity> getCart() {
+//		return cart;
+//	}
+//	public void setCart(Set<CartItemEntity> cart) {
+//		this.cart = cart;
+//	}
+//	
+//	public void addcart(CartItemEntity cartlist) {
+//		this.cart.add(cartlist);
+//	}
 
 }
 

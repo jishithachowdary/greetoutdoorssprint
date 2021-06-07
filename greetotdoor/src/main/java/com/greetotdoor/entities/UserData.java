@@ -2,6 +2,7 @@ package com.greetotdoor.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,25 +15,22 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="User_Data")
+@Table(name="USER_TABLE")
 public class UserData implements Serializable {
 	private static final long serializableUID=1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO,generator = "u_gen")
 	@SequenceGenerator(name="u_gen", sequenceName="s_user", allocationSize=1)
-	@Column(name="userId")
+	@Column(name="USER_ID")
 	private int userId;
-	@Column(name="userName")
+	@Column(name="USER_NAME")
 	private String userName;
 	
-	@Column(name="userType")
+	@Column(name="USER_TYPE")
 	private String userType;
-	@Column(name="userPassword")
+	@Column(name="USER_PASSWORD")
 	private String userPassword;
-	
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="USER_ID")
-	private CustomerEntity customer;
+
 	public String getUserName() {
 		return userName;
 	}
@@ -57,17 +55,7 @@ public class UserData implements Serializable {
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
-	public CustomerEntity getCustomer() {
-		return customer;
-	}
-	public void setCustomer(CustomerEntity customer) {
-		this.customer = customer;
-	}
-	@Override
-	public String toString() {
-		return "UserData [userId=" + userId + ", userName=" + userName + ", userType=" + userType + ", userPassword="
-				+ userPassword + ", customer=" + customer + "]";
-	}
+
 	
 	
 	
