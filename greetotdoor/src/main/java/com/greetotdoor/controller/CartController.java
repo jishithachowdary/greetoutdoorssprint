@@ -18,8 +18,8 @@ public class CartController {
 	private ICartServiceImpl cs;
 	
 	@RequestMapping(method=RequestMethod.POST,value="/cart/insert")
-	public CartItemEntity addCart(@RequestBody CartRequest crequest) throws CartException {
-		return cs.addCart(crequest);
+	public void addCart(@RequestBody CartRequest crequest) throws CartException {
+		 cs.addCart(crequest);
 	}
 
 }

@@ -9,7 +9,7 @@ import com.greetotdoor.pojos.CartRequest;
 public interface ICartService {
 //	public List<CartItemEntity> findCartlist(String userId);
 //	public CartItemEntity findCartItem(String productId, String userId);
-	public CartItemEntity addCart(CartRequest crequest) throws CartException;
+	public void addCart(CartRequest crequest) throws CartException;
 //
 //	public CartItemEntity updateCart(CartItemEntity cartItemEntity) throws CartException;
 //

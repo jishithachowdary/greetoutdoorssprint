@@ -30,6 +30,7 @@ public class UserData implements Serializable {
 	private String userType;
 	@Column(name="USER_PASSWORD")
 	private String userPassword;
+	
 
 	public String getUserName() {
 		return userName;

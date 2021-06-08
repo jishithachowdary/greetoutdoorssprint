@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapKey;
+import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -43,12 +48,12 @@ public class CartItemEntity implements Serializable{
 	private int totalQuantity;
 	
 	
-//	@ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-//	@JoinTable(name="PRODUCT_CART_TABLE",
-//	joinColumns= {@JoinColumn(name="CART_ID")},inverseJoinColumns= {@JoinColumn(name="PRODUCT_ID")})
-//	@JsonIgnore
-//	private Set<ProductEntity> pc=new HashSet<>();
-//	private Map<ProductEntity, Integer>  productCart=new HashMap<>();
+	@ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@JoinTable(name="PRODUCT_CART_TABLE",
+	joinColumns= {@JoinColumn(name="CART_ID")},
+	inverseJoinColumns= {@JoinColumn(name="PRODUCT_ID")})
+	@MapKey(name="productName")
+	private Map<String,ProductEntity>  productCart=new HashMap<String,ProductEntity>();
 	public int getCartId() {
 		return cartId;
 	}
@@ -67,28 +72,35 @@ public class CartItemEntity implements Serializable{
 	public void setTotalQuantity(int totalQuantity) {
 		this.totalQuantity = totalQuantity;
 	}
+
+	
 	public String getUserId() {
 		return userId;
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-//	public Map<ProductEntity, Integer> getProductCart() {
-//		return productCart;
-//	}
-//	public void setProductCart(Map<ProductEntity, Integer> productCart) {
-//		this.productCart = productCart;
-//	}
-//	public Set<ProductEntity> getPc() {
-//		return pc;
-//	}
-//	public void setPc(Set<ProductEntity> pc) {
-//		this.pc = pc;
-//	}
+	public Map<String,ProductEntity> getProductCart() {
+		return productCart;
+	}
+	public void setProductCart(Map<String,ProductEntity> productCart) {
+		this.productCart = productCart;
+	}
+	public void addProduct(ProductEntity product) {
+		
+		if(!getProductCart().containsKey(product.getProductName())) {
+			
+			ProductEntity pe=product;
+			getProductCart().put(product.getProductName(), product);
+			System.out.println(getProductCart());
+			
+		}
+		else {
+			ProductEntity p=getProductCart().get(product.getProductId());
+			p.setQuantity(p.getQuantity()+product.getQuantity());
+		}
+
+	}
 	
-	
-	
-	
-	
-	
+
 }
