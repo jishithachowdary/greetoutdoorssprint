@@ -15,7 +15,7 @@ public interface ISalesReportService {
 
 	public void deleteAllSalesReport() throws SalesReportException;
 
-	public void deleteSalesReportById(Long salesReportId) throws SalesReportException;
+	public void deleteSalesReportById(int salesReportId) throws SalesReportException;
 
 }
 

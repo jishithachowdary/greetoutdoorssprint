@@ -8,7 +8,7 @@ import com.greetotdoor.entities.UserData;
 
 public class CartRequest {
 	public int cartId;
-	public String userId;
+	public int userId;
 	public double cartTotalPrice;
 	public int totalQuantity;
 	public Map<String,ProductEntity>  productCart;

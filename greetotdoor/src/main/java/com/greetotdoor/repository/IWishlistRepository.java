@@ -26,5 +26,5 @@ public interface IWishlistRepository extends JpaRepository<WishlistitemEntity,In
 //	 void deleteWishlistItem(String productId, String userId) throws WishlistException;
 //	@Query(name="WishlistitemEntity.deleteByUserId")
 //	 void deleteWishlist(String userId) throws WishlistException;
-
+	
 }

@@ -7,6 +7,6 @@ public interface IUserService {
 	public UserData addUser(UserData user);
 
 //	public UserData loginUser(UserData u);
-//	public UserData logout(UserData user);
+	public UserData logout(UserData user);
 }
 

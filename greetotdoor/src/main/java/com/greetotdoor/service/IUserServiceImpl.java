@@ -13,4 +13,7 @@ public class IUserServiceImpl implements IUserService{
 	public UserData addUser(UserData user) {
 		return ur.save(user);
 	}
+	public UserData logout(UserData user) {
+		return user;
+	}
 }

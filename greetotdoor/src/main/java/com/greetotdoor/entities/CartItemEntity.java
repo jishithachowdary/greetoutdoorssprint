@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -41,17 +42,18 @@ public class CartItemEntity implements Serializable{
 	@Column(name="CART_ID")
 	private int cartId;
 	@Column(name="USER_ID")
-	private String userId;
+	private int userId;
 	@Column(name="CART_TOTAL_PRICE")
 	private double cartTotalPrice;
 	@Column(name="TOTAL_QUANTITY")
 	private int totalQuantity;
 	
 	
-	@ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@ManyToMany(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinTable(name="PRODUCT_CART_TABLE",
 	joinColumns= {@JoinColumn(name="CART_ID")},
 	inverseJoinColumns= {@JoinColumn(name="PRODUCT_ID")})
+	@JsonIgnore
 	@MapKey(name="productName")
 	private Map<String,ProductEntity>  productCart=new HashMap<String,ProductEntity>();
 	public int getCartId() {
@@ -74,10 +76,10 @@ public class CartItemEntity implements Serializable{
 	}
 
 	
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	public Map<String,ProductEntity> getProductCart() {
@@ -100,6 +102,10 @@ public class CartItemEntity implements Serializable{
 			p.setQuantity(p.getQuantity()+product.getQuantity());
 		}
 
+	}
+	
+	public void removeProductCart(String pname) {
+		this.productCart.remove(pname);
 	}
 	
 

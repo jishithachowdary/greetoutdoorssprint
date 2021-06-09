@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -41,8 +42,8 @@ public class WishlistitemEntity implements Serializable{
 	@Column(name="WHISHLIST_IS")
 	private int wishListId;
 	@Column(name="USER_ID")
-	private String userId;
-	@ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	private int userId;
+	@ManyToMany(fetch=FetchType.LAZY,cascade= {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinTable(name="PRODUCT_WHISHLIST_TABLE",
 	joinColumns= {@JoinColumn(name="WHISHLIST_IS")},inverseJoinColumns= {@JoinColumn(name="PRODUCT_ID")})
 	@JsonIgnore
@@ -61,14 +62,17 @@ public class WishlistitemEntity implements Serializable{
 	public void setWishListId(int wishListId) {
 		this.wishListId = wishListId;
 	}
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	public void addProduct(ProductEntity product) {
 		this.product.add(product);
+	}
+	public void removeProduct(ProductEntity product) {
+		this.product.remove(product);
 	}
 	
 	

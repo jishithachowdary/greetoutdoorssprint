@@ -19,6 +19,8 @@ import javax.persistence.MapKey;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="ORDER_TABLE")
 public class OrderEntity implements Serializable{
@@ -45,10 +47,11 @@ public class OrderEntity implements Serializable{
 	@Column(name="DELIVERY_DATE")
 	private LocalDate deliveryDate;
 	
-	@ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@ManyToMany(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinTable(name="PRODUCT_ORDER_TABLE",
 	joinColumns= {@JoinColumn(name="ORDER_ID")},
 	inverseJoinColumns= {@JoinColumn(name="PRODUCT_ID")})
+	@JsonIgnore
 	@MapKey(name="productName")
 	private Map<String,ProductEntity>  productOrder=new HashMap<String,ProductEntity>();
 	
@@ -96,7 +99,7 @@ public class OrderEntity implements Serializable{
 	public void setProductOrder(Map<String, ProductEntity> productOrder) {
 		this.productOrder = productOrder;
 	}
-public void addProduct(ProductEntity product) {
+	public void addProduct(ProductEntity product) {
 		
 		if(!getProductOrder().containsKey(product.getProductName())) {
 			
@@ -111,7 +114,10 @@ public void addProduct(ProductEntity product) {
 		}
 
 	}
-	
+	public void removeProductOrder(String pname) {
+		this.productOrder.remove(pname);
+	}
+		
 	
 	
 }

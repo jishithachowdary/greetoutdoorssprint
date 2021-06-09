@@ -18,6 +18,7 @@ public class ICustomerServiceImpl implements ICustomerService{
 	AddressRepository ar;
 	public List<CustomerEntity> getAllCustomers(){
 		return cr.findAll();
+		
 	}
 	public CustomerEntity addCustomer(CustomerEntity customer) {
 		return cr.save(customer);

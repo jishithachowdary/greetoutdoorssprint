@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
-@Table(name="Product_Table")
+@Table(name="PRODUCT_TABLE")
 public class ProductEntity implements Serializable{
 	/**
 	 * 
@@ -34,36 +34,34 @@ public class ProductEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO,generator = "pro_gen")
-	@SequenceGenerator(name="pro_gen", sequenceName="s_product", allocationSize=1)
+//	@GeneratedValue(strategy=GenerationType.AUTO,generator = "pro_gen")
+//	@SequenceGenerator(name="pro_gen", sequenceName="s_product", allocationSize=1)
 	@Column(name="PRODUCT_ID")
 	private String productId;
 	@Column(name="PRODUCT_NAME")
 	private String productName;
 	@Column(name="PRICE")
-	double price;
+	private double price;
 	@Column(name="IMAGE")
-	String image;
+	private String image;
 	@Column(name="COLOR")
-	String colour;
+	private String colour;
 	@Column(name="CATEGORY")
-	String category;
+	private String category;
 	@Column(name="QUANTITY")
-	int quantity;
+	private int quantity;
 	@Column(name="MANUFACTURE")
-	String manufacturer;
+	private String manufacturer;
 	@Column(name="SPECIFICATION")
-	String specification;
+	private String specification;
 	
-	@ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="product")
+	@ManyToMany(fetch=FetchType.LAZY,mappedBy="product")
 	private Set<WishlistitemEntity> wishlist=new HashSet<>();
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name ="CART_ID")
+	@ManyToMany(fetch = FetchType.LAZY,mappedBy="productCart")
 	private Set<CartItemEntity> cart;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name ="ORDER_ID")
+	@ManyToMany(fetch = FetchType.LAZY,mappedBy="productOrder")
 	private Set<OrderEntity> order;
 	
 //	public CartItemEntity getCart() {

@@ -10,9 +10,9 @@ public interface IGrowthReportService {
 
 	public List<GrowthReport> findAllGrowthReport();
 
-	public void addGrowthReport() throws SalesReportException;
-
+//	public void addGrowthReport() throws SalesReportException;
+//
 	public void deleteAllGrowthReport() throws GrowthReportException;
 
-	public void deleteGrowthReportById(Long growthReportId) throws GrowthReportException;
+	public void deleteGrowthReportById(int growthReportId) throws GrowthReportException;
 }
