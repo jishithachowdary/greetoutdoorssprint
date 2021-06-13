@@ -42,7 +42,7 @@ public class CartItemEntity implements Serializable{
 	@Column(name="CART_ID")
 	private int cartId;
 	@Column(name="USER_ID")
-	private int userId;
+	private String userId;
 	@Column(name="CART_TOTAL_PRICE")
 	private double cartTotalPrice;
 	@Column(name="TOTAL_QUANTITY")
@@ -56,6 +56,18 @@ public class CartItemEntity implements Serializable{
 	@JsonIgnore
 	@MapKey(name="productName")
 	private Map<String,ProductEntity>  productCart=new HashMap<String,ProductEntity>();
+	public CartItemEntity() {
+		
+	}
+	public CartItemEntity(int cartId, String userId, double cartTotalPrice, int totalQuantity,
+			Map<String, ProductEntity> productCart) {
+		super();
+		this.cartId = cartId;
+		this.userId = userId;
+		this.cartTotalPrice = cartTotalPrice;
+		this.totalQuantity = totalQuantity;
+		this.productCart = productCart;
+	}
 	public int getCartId() {
 		return cartId;
 	}
@@ -76,10 +88,10 @@ public class CartItemEntity implements Serializable{
 	}
 
 	
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public Map<String,ProductEntity> getProductCart() {

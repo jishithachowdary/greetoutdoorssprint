@@ -23,10 +23,11 @@ public class CartController {
 	
 	@RequestMapping(method=RequestMethod.POST,value="/cart/insert")
 	public void addCart(@RequestBody CartRequest crequest) throws CartException {
-		 cs.addCart(crequest);
+		System.out.println("repository");
+		cs.addCart(crequest);
 	}
 	@RequestMapping("/cart/userid/{userid}")
-	public List<CartDao> findWishlist(@PathVariable String userid){
+	public List<CartDao> findCartlist(@PathVariable String userid){
 		return cs.findCartlist(userid);
 	}
 	@RequestMapping("/cart/productid/{productId}/userid/{userId}")

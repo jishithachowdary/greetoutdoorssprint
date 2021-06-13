@@ -24,12 +24,28 @@ public class ICustomerServiceImpl implements ICustomerService{
 		return cr.save(customer);
 	}
 	public CustomerEntity updateCustomer(CustomerEntity customer) {
-		return cr.save(customer);
+		for(CustomerEntity c:cr.findAll()) {
+			if(c.getCustomerId()==customer.getCustomerId()) {
+				if(customer.getCustomerName()!=null) {
+				c.setCustomerName(customer.getCustomerName());
+				}
+				if(customer.getEmail()!=null) {
+				c.setEmail(customer.getEmail());
+				}
+				if(customer.getMobileNo()!=null) {
+				c.setMobileNo(customer.getMobileNo());
+				}if(customer.getAddress()!=null) {
+				c.setAddress(customer.getAddress());
+				}
+				return cr.save(c);
+			}
+		}
+		return new CustomerEntity();
 	}
 	public void removeCustomer(CustomerEntity customer) {
-		 cr.deleteById(customer.getCustomer_id());
+		 cr.deleteById(customer.getCustomerId());
 	}
-	public CustomerEntity viewCustomer(CustomerEntity customer) {
-		return cr.viewCustomer(customer);
+	public CustomerEntity viewCustomer(CustomerEntity customer)  throws Exception{
+		return cr.findById(customer.getCustomerId()).orElseThrow(()->new Exception("there is no customer with particular customer id"));
 	}
 }

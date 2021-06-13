@@ -8,5 +8,5 @@ import com.greetotdoor.entities.UserData;
 
 @Service
 public interface IUserRepository extends JpaRepository<UserData,Integer>{
-	
+	UserData findByUserId(String userId);
 }

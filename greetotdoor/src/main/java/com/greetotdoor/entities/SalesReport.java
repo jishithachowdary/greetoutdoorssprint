@@ -13,14 +13,12 @@ import javax.persistence.Table;
 public class SalesReport implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="Salesgenerator")
+	@SequenceGenerator(name="Salesgenerator", sequenceName="S_sales", allocationSize=1)
 	@Column(name="SALES_REPORT_ID")
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="Salesreport_id_generator")
-	@SequenceGenerator(name="salesreport_id_generator", sequenceName="S_CUSTOMER", allocationSize=5)
 	private int salesreportId;
 	@Column(name="PRODUCT_ID")
 	private String productId;
-	@Column(name="PRODUCT_NAME")
-	private String productName;
 	@Column(name="QUANTITY_SOLD")
 	private int quantitySold;
 	@Column(name="TOTAL_SALE")
@@ -36,12 +34,6 @@ public class SalesReport implements Serializable {
 	}
 	public void setProductId(String productId) {
 		this.productId = productId;
-	}
-	public String getProductName() {
-		return productName;
-	}
-	public void setProductName(String productName) {
-		this.productName = productName;
 	}
 	public int getQuantitySold() {
 		return quantitySold;

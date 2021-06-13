@@ -20,29 +20,19 @@ import javax.persistence.Table;
 public class UserData implements Serializable {
 	private static final long serializableUID=1L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO,generator = "u_gen")
-	@SequenceGenerator(name="u_gen", sequenceName="s_user", allocationSize=1)
 	@Column(name="USER_ID")
-	private int userId;
-	@Column(name="USER_NAME",unique=true)
-	private String username;
-	
+	private String userId;
 	@Column(name="USER_TYPE")
 	private String userType;
 	@Column(name="USER_PASSWORD")
 	private String userPassword;
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
+
 	public String getUserType() {
 		return userType;
 	}
@@ -55,13 +45,7 @@ public class UserData implements Serializable {
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
-	public static long getSerializableuid() {
-		return serializableUID;
-	}
 	
-
-	
-
 	
 	
 	

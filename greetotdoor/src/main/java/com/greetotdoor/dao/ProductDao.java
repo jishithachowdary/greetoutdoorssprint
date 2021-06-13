@@ -12,6 +12,23 @@ public class ProductDao {
 	private int quantity;
 	private String manufacturer;
 	private String specification;
+	public ProductDao() {
+		
+	}
+	
+	public ProductDao(String pid, String pname, double price, String image, String colour, String category,
+			int quantity, String manufacturer, String specification) {
+		super();
+		this.pid = pid;
+		this.pname = pname;
+		this.price = price;
+		this.image = image;
+		this.colour = colour;
+		this.category = category;
+		this.quantity = quantity;
+		this.manufacturer = manufacturer;
+		this.specification = specification;
+	}
 	public String getPid() {
 		return pid;
 	}

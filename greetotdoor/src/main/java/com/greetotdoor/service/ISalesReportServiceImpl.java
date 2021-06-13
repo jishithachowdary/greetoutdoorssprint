@@ -14,6 +14,7 @@ public class ISalesReportServiceImpl implements ISalesReportService{
 	@Autowired
 	ISalesReportRepository sr;
 	public List<SalesReport> findAllSalesReport(){
+		System.out.println("in");
 		return sr.findAll();
 	}
 	public SalesReport findSalesReportByProductId(String productId) {
@@ -25,12 +26,32 @@ public class ISalesReportServiceImpl implements ISalesReportService{
 		return null;
 	}
 	public void deleteSalesReportById(int salesReportId) throws SalesReportException{
+		SalesReport sales=sr.findById(salesReportId).orElseThrow(()->new SalesReportException("there is no record with given sales report id"));
 		sr.deleteById(salesReportId);
 	}
 	public void deleteAllSalesReport() throws SalesReportException{
+		if(sr.findAll().size()!=0) {
 		sr.deleteAll();
+		}
+		else {
+			throw new SalesReportException("there are no records of sales report ");
+		}
 	}
-	public void updateProductReport(SalesReport salesReportEntity) {
+	public void updateProductReport(SalesReport salesReportEntity) throws SalesReportException {
+		SalesReport s=sr.findById(salesReportEntity.getSalesreportId()).orElseThrow(()->new SalesReportException("to update sales report there is no salesreport that mathches the given report "));
+		if(salesReportEntity.getTotalSale()!=0) {
+			s.setTotalSale(salesReportEntity.getTotalSale());
+		}
+		if(salesReportEntity.getQuantitySold()!=0) {
+			s.setQuantitySold(salesReportEntity.getQuantitySold());
+		}
+		if(salesReportEntity.getProductId()!=null) {
+			s.setProductId(salesReportEntity.getProductId());
+		}
 		sr.save(salesReportEntity);
 	}
+	public void addSalesReport(SalesReport salesReportEntity) {
+		sr.save(salesReportEntity);
+	}
+	
 }

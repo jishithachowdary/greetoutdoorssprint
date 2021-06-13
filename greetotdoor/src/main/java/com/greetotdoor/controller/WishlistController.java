@@ -29,7 +29,7 @@ public class WishlistController {
 		return ws.findAllItems();
 	}
 	@RequestMapping("/wishlist/userid/{userid}")
-	public List<WishDao> findWishlist(@PathVariable int userid){
+	public List<WishDao> findWishlist(@PathVariable String userid){
 		return ws.findWishlist(userid);
 	}
 	@RequestMapping("/wishlist/productid/{productId}/userid/{userId}")

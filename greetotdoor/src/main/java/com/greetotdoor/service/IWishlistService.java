@@ -11,7 +11,7 @@ public interface IWishlistService {
 
 	public List<WishDao> findAllItems();
 
-	public List<WishDao> findWishlist(int userId);
+	public List<WishDao> findWishlist(String userId);
 
 	public WishDao findWishlistItem(String productId, String userId);
 	public void addProductToWishlist(String prodId,int wishlistID);

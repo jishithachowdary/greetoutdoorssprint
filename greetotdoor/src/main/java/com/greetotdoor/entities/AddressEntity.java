@@ -25,11 +25,11 @@ public class AddressEntity implements Serializable{
 	@GeneratedValue(strategy=GenerationType.AUTO,generator = "add_gen")
 	@SequenceGenerator(name="add_gen", sequenceName="s_customer", allocationSize=1)
 	@Column(name="ADDRESS_ID")
-	private int address_id;	
+	private int addressId;	
 	@Column(name="BUILDING_NO")
-	private int building_no;
+	private int buildingNo;
 	@Column(name="STREET_NAME")
-	private String street_name;
+	private String streetName;
 	@Column(name="AREA")
 	private String area;
 	@Column(name="CITY")
@@ -42,25 +42,38 @@ public class AddressEntity implements Serializable{
 	@JoinColumn(name = "CUSTOMER_ID")
 	@JsonIgnore
 	private CustomerEntity customer;
-	//getters and setters
 	
-	public int getAddress_id() {
-		return address_id;
+	public AddressEntity() {
+		
 	}
-	public void setAddress_id(int address_id) {
-		this.address_id = address_id;
+	public AddressEntity(int addressId,int buildingNo, String streetName, String area, String city, String state,
+			String zip) {
+		this.addressId=addressId;
+		this.buildingNo = buildingNo;
+		this.streetName = streetName;
+		this.area = area;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
 	}
-	public int getBuilding_no() {
-		return building_no;
+	//getters and setters
+	public int getAddressId() {
+		return addressId;
 	}
-	public void setBuilding_no(int building_no) {
-		this.building_no = building_no;
+	public void setAddressId(int addressId) {
+		this.addressId = addressId;
 	}
-	public String getStreet_name() {
-		return street_name;
+	public int getBuildingNo() {
+		return buildingNo;
 	}
-	public void setStreet_name(String street_name) {
-		this.street_name = street_name;
+	public void setBuildingNo(int buildingNo) {
+		this.buildingNo = buildingNo;
+	}
+	public String getStreetName() {
+		return streetName;
+	}
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
 	}
 	public String getArea() {
 		return area;
@@ -92,6 +105,8 @@ public class AddressEntity implements Serializable{
 	public void setCustomer(CustomerEntity customer) {
 		this.customer = customer;
 	}
+	
+
 	
 }
 	

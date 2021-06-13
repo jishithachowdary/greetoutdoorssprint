@@ -3,8 +3,10 @@ package com.greetotdoor.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,10 +33,8 @@ public class IOrderServiceImpl implements IOrderService{
 		int totalquantity=0;
 		double totalprice=0;
 		OrderEntity order=new OrderEntity();
-		if(ur.findById(orequest.userId) != null) {
-			System.out.println("before user");
+		if(ur.findByUserId(orequest.userId) != null) {
 			order.setUserId(orequest.userId);
-			System.out.println("after userid");
 			for(Map.Entry<String, ProductEntity> m:orequest.productOrder.entrySet()) {
 				ProductEntity pe=new ProductEntity();
 				pe=pr.findByProductId(m.getValue().getProductId());
@@ -44,8 +44,10 @@ public class IOrderServiceImpl implements IOrderService{
 				totalquantity=totalquantity+m.getValue().getQuantity();
 				totalprice=totalprice+(m.getValue().getQuantity()*(pe.getPrice()));
 			}
-			order.setDeliveryDate(orequest.deivaryDate);
+			System.out.println(orequest.delivaryDate+""+orequest.dispatchDate);
+			order.setDeliveryDate(orequest.delivaryDate);
 			order.setDispatchDate(orequest.dispatchDate);
+			System.out.println(order.getDeliveryDate());
 			order.setTotalPrice(totalprice);
 			order.setTotalQuantity(totalquantity);
 			System.out.println(totalquantity);
@@ -76,9 +78,15 @@ public class IOrderServiceImpl implements IOrderService{
 				pd.setImage(pe.getValue().getImage());
 				pd.setColour(pe.getValue().getColour());
 				pd.setCategory(pe.getValue().getCategory());																																																																										
-				p.put(pd.getPname(), pd);																																																										
+				p.put(pd.getPname(), pd);		
+				
+				System.out.println(od);
 				}
 			od.setProductOrder(p);
+			od.setTotalPrice(o.getTotalPrice());
+			od.setTotalQuantity(o.getTotalQuantity());
+			od.setDeliveryDate(o.getDeliveryDate());
+			od.setDispatchDate(o.getDispatchDate());
 			order.add(od);
 			}
 		return order;
@@ -89,7 +97,7 @@ public class IOrderServiceImpl implements IOrderService{
 		List<OrderDao> orderDao=new ArrayList<>();
 		List<OrderEntity> oe=or.findAll();
 		for(OrderEntity o:oe) {
-			if(o.getUserId()==Integer.parseInt(userId)) {
+			if(o.getUserId().equals(userId)) {
 				OrderDao od=new OrderDao();
 				od.setUid(o.getUserId());
 				od.setOid(o.getOrderId());
@@ -110,6 +118,10 @@ public class IOrderServiceImpl implements IOrderService{
 						p.put(pd.getPname(), pd);
 					}
 					od.setProductOrder(p);
+					od.setTotalPrice(o.getTotalPrice());
+					od.setTotalQuantity(o.getTotalQuantity());
+					od.setDeliveryDate(o.getDeliveryDate());
+					od.setDispatchDate(o.getDispatchDate());
 					orderDao.add(od);
 			}
 		}
@@ -118,7 +130,15 @@ public class IOrderServiceImpl implements IOrderService{
 	}
 	public void deleteOrderById(String orderId) throws OrderException {
 		// TODO Auto-generated method stub
-		or.deleteById(orderId);
+		OrderEntity o=or.findById(orderId).orElseThrow(()->new OrderException("order not found"));
+		if(o.getProductOrder().size()>0) {
+			Iterator<String> m=o.getProductOrder().keySet().iterator();
+			while (m.hasNext()) {
+				String  item=m.next();
+				m.remove();
+			}
+			or.delete(o);
+		}
 	}
 	
 	public void updateDate(String orderId, LocalDate dispatchDate, LocalDate arrivalDate) throws OrderException{
@@ -134,6 +154,16 @@ public class IOrderServiceImpl implements IOrderService{
 		}
 	}
 	public void deleteAllOrders() throws OrderException{
-		or.deleteAll();
+		for(OrderEntity o:or.findAll()) {
+			if(o.getProductOrder().size()>0) {
+				Iterator<String> m=o.getProductOrder().keySet().iterator();
+				while (m.hasNext()) {
+					String  item=m.next();
+					m.remove();
+				}
+			}
+			or.delete(o);
+		}
+		
 	}
 }

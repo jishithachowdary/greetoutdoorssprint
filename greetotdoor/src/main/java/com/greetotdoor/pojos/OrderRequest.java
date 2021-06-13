@@ -7,9 +7,9 @@ import com.greetotdoor.entities.ProductEntity;
 
 public class OrderRequest {
 	public String orderId;
-	public int userId;
+	public String userId;
 	public double totalPrice;
+	public LocalDate delivaryDate;
 	public LocalDate dispatchDate;
-	public LocalDate deivaryDate;
 	public Map<String,ProductEntity>  productOrder;
 }

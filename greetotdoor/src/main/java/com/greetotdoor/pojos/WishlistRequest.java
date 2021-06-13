@@ -8,6 +8,6 @@ import com.greetotdoor.entities.ProductEntity;
 
 public class WishlistRequest {
 	public int wishListId;
-	public int userId;
+	public String userId;
 	public Set<ProductEntity> product;
 }

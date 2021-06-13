@@ -64,7 +64,26 @@ public class ProductEntity implements Serializable{
 	@ManyToMany(fetch = FetchType.LAZY,mappedBy="productOrder")
 	private Set<OrderEntity> order;
 	
-//	public CartItemEntity getCart() {
+
+
+	public ProductEntity() {
+		
+	}
+	
+	public ProductEntity(String productId, String productName, double price, String image, String colour,
+				String category, int quantity, String manufacturer, String specification) {
+			super();
+			this.productId = productId;
+			this.productName = productName;
+			this.price = price;
+			this.image = image;
+			this.colour = colour;
+			this.category = category;
+			this.quantity = quantity;
+			this.manufacturer = manufacturer;
+			this.specification = specification;
+		}
+	//	public CartItemEntity getCart() {
 //		return cart;
 //	}
 //	public void setCart(CartItemEntity cart) {

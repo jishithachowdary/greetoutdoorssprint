@@ -35,7 +35,7 @@ public class OrderEntity implements Serializable{
 	@Column(name="ORDER_ID")
 	private String orderId;
 	@Column(name="USER_ID")
-	private int userId;
+	private String userId;
 	/*@Column(name="PRODUCT_ID")
 	private String productId;*/
 	@Column(name="TOTAL_PRICE")
@@ -47,7 +47,7 @@ public class OrderEntity implements Serializable{
 	@Column(name="DELIVERY_DATE")
 	private LocalDate deliveryDate;
 	
-	@ManyToMany(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@ManyToMany(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH})
 	@JoinTable(name="PRODUCT_ORDER_TABLE",
 	joinColumns= {@JoinColumn(name="ORDER_ID")},
 	inverseJoinColumns= {@JoinColumn(name="PRODUCT_ID")})
@@ -75,10 +75,10 @@ public class OrderEntity implements Serializable{
 		this.totalQuantity = totalQuantity;
 	}
 	
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public LocalDate getDispatchDate() {

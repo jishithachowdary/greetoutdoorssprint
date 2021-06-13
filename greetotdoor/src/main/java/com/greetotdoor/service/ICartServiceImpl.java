@@ -2,6 +2,7 @@ package com.greetotdoor.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,11 +36,12 @@ public class ICartServiceImpl implements ICartService{
 		int totalquantity=0;
 		double totalprice=0;
 		CartItemEntity cart=new CartItemEntity();
-		
-		if(ur.findById(crequest.userId) != null) {
+		System.out.println("service");
+		if(ur.findByUserId(crequest.userId) != null) {
 			cart.setUserId(crequest.userId);
 			for(Map.Entry<String,ProductEntity> m:crequest.productCart.entrySet()) {
 				ProductEntity pe=new ProductEntity();
+				System.out.println(m.getValue().getProductId());
 				 pe=pr.findByProductId(m.getValue().getProductId());
 				cart.addProduct(pe);
 				if(pe.getQuantity()>=m.getValue().getQuantity()) {
@@ -57,7 +59,7 @@ public class ICartServiceImpl implements ICartService{
 		
 			cart.setCartTotalPrice(totalprice);
 			
-			 cr.save(cart);
+			  cr.save(cart);
 		}else {
 			throw new CartException("no user withuser id so cart cannot be added");
 		}
@@ -66,9 +68,8 @@ public class ICartServiceImpl implements ICartService{
 		public List<CartDao> findCartlist(String userId) {
 			// TODO Auto-generated method stub
 			List<CartDao> cartDao=new ArrayList<>();
-			List<CartItemEntity> ce=cr.findAll();
-			for(CartItemEntity c:ce) {
-				if(c.getUserId()==Integer.parseInt(userId)) {
+			for(CartItemEntity c:cr.findAll()) {
+				if(c.getUserId().equals(userId)) {
 					CartDao cd=new CartDao();
 					cd.setUserId(c.getUserId());
 						cd.setCartId(c.getCartId());
@@ -87,10 +88,11 @@ public class ICartServiceImpl implements ICartService{
 							pd.setCategory(pe.getValue().getCategory());
 							//
 							p.put(pd.getPname(), pd);
-							
 						
 						}
 						cd.setProductCart(p);
+						cd.setCartTotalPrice(c.getCartTotalPrice());
+						cd.setTotalQuantity(c.getTotalQuantity());
 						cartDao.add(cd);
 				}
 			}
@@ -103,7 +105,7 @@ public class ICartServiceImpl implements ICartService{
 			// TODO Auto-generated method stub
 			CartDao cd=new CartDao();
 			for(CartItemEntity c:cr.findAll()) {
-				if(c.getUserId()==Integer.parseInt(userId)) {
+				if(c.getUserId().equals(userId)) {
 						cd.setUserId(c.getUserId());
 						cd.setCartId(c.getCartId());
 						//
@@ -111,7 +113,7 @@ public class ICartServiceImpl implements ICartService{
 						for(Map.Entry<String,ProductEntity> pe:c.getProductCart().entrySet()) {
 							//
 							if(pe.getValue().getProductId().equals(productId)) {
-							ProductDao pd=new ProductDao();
+								ProductDao pd=new ProductDao();
 							pd.setPid(pe.getValue().getProductId());
 							pd.setPname(pe.getValue().getProductName());
 							pd.setPrice(pe.getValue().getPrice());
@@ -124,6 +126,8 @@ public class ICartServiceImpl implements ICartService{
 							//
 							p.put(pd.getPname(), pd);
 							cd.setProductCart(p);
+							cd.setCartTotalPrice(c.getCartTotalPrice());
+							cd.setTotalQuantity(c.getTotalQuantity());
 							return cd;
 							}
 					}	
@@ -137,12 +141,14 @@ public class ICartServiceImpl implements ICartService{
 		public CartItemEntity updateCart(CartRequest crequest) throws CartException {
 			for(CartItemEntity c:cr.findAll()) {
 				if(c.getCartId()==crequest.cartId) {
+					System.out.println(c.getCartId());
 					int totalquantity=0;
 					double totalprice=0;
 					CartItemEntity cart=new CartItemEntity();
 					cart.setCartId(crequest.cartId);
 					cart.setUserId(crequest.userId);
 					for(Map.Entry<String,ProductEntity> m:crequest.productCart.entrySet()) {
+						System.out.println("inside");
 						ProductEntity pe=new ProductEntity();
 						 pe=pr.findByProductId(m.getValue().getProductId());
 						cart.addProduct(pe);
@@ -177,32 +183,38 @@ public class ICartServiceImpl implements ICartService{
 						throw new CartException("no products in this cart");
 					}
 					else {
-						for(Map.Entry<String,ProductEntity> pe:c.getProductCart().entrySet()) {
-							if(pe.getValue().getProductId().equals(productId)) {
-								c.removeProductCart(pe.getKey());
+				Iterator<String> m=c.getProductCart().keySet().iterator();
+				while (m.hasNext()) {
+					String  item=m.next();
+					ProductEntity pe=pr.findByProductId(productId);
+					if(item.equals(pe.getProductName())) {
+						m.remove();
+						
 							}
 						}
 					}
-					//
-					cr.save(c);
+					
 				}
+				cr.save(c);
 			}
+			
 			//cr.deleteCartItem(cartId, productId);
 		}
 		public void deleteCartlist(String userId) throws CartException {
 			// TODO Auto-generated method stub
 			for(CartItemEntity c:cr.findAll()) {
-				if(c.getUserId()==Integer.parseInt(userId)) {
-						if(c.getProductCart().size()==0) {
-							cr.deleteById(c.getCartId());
+				if(c.getUserId().equals(userId)) {
+						if(c.getProductCart().size()!=0) {
+							Iterator<String> m=c.getProductCart().keySet().iterator();
+							while (m.hasNext()) {
+								String  item=m.next();
+								m.remove();
+							}
+							
 						}
-						else {
-							throw new CartException("failed to delete please delete the products associated with this list");
-						}
-					
+						cr.delete(c);
 				}
 			}
-			//cr.deleteCartlist(userId);
 		}
 	
 	

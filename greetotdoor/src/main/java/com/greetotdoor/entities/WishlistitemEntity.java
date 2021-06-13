@@ -42,14 +42,22 @@ public class WishlistitemEntity implements Serializable{
 	@Column(name="WHISHLIST_IS")
 	private int wishListId;
 	@Column(name="USER_ID")
-	private int userId;
+	private String userId;
 	@ManyToMany(fetch=FetchType.LAZY,cascade= {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinTable(name="PRODUCT_WHISHLIST_TABLE",
 	joinColumns= {@JoinColumn(name="WHISHLIST_IS")},inverseJoinColumns= {@JoinColumn(name="PRODUCT_ID")})
 	@JsonIgnore
 	private Set<ProductEntity> product =new HashSet<>();
+	public WishlistitemEntity() {
+		
+	}
 	
-	
+	public WishlistitemEntity(int wishListId, String userId, Set<ProductEntity> product) {
+		super();
+		this.wishListId = wishListId;
+		this.userId = userId;
+		this.product = product;
+	}
 	public Set<ProductEntity> getProduct() {
 		return product;
 	}
@@ -62,10 +70,10 @@ public class WishlistitemEntity implements Serializable{
 	public void setWishListId(int wishListId) {
 		this.wishListId = wishListId;
 	}
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public void addProduct(ProductEntity product) {

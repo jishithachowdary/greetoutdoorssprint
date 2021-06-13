@@ -1,5 +1,6 @@
 package com.greetotdoor.entities;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -19,10 +20,10 @@ import javax.persistence.Table;
 		@Id
 		@Column(name="GROWTH_REPORT_ID")
 		@GeneratedValue(strategy=GenerationType.AUTO, generator="growthreport_id_generator")
-		@SequenceGenerator(name="growthreport_id_generator", sequenceName="S_COSTUMER", allocationSize=5)
+		@SequenceGenerator(name="growthreport_id_generator", sequenceName="S_growth", allocationSize=1)
 		private int growthreportId;
 		@Column(name="CURRENT_DATE")
-		private Date currentdate;
+		private LocalDate currentdate;
 	//	@ManyToOne(fetch=FetchType.LAZY)
 		//@JoinColumn(name="PRODUCT_ID", nullable = false)
 		@Column(name="REVENUE")
@@ -32,18 +33,18 @@ import javax.persistence.Table;
 		@Column(name="PERCENTAGE_GROWTH")
 		private int percentagegrowth;
 		@Column(name="COLOR_CODE")
-		private int colorcode;
+		private String colorcode;
 		public int getGrowthreportId() {
 			return growthreportId;
 		}
 		public void setGrowthreportId(int growthreportId) {
 			this.growthreportId = growthreportId;
 		}
-		public Date getCurrentdate() {
+		public LocalDate getCurrentdate() {
 			return currentdate;
 		}
-		public void setCurrentdate(Date currentdate) {
-			this.currentdate = currentdate;
+		public void setCurrentdate(LocalDate localDate) {
+			this.currentdate = localDate;
 		}
 		public int getRevenue() {
 			return revenue;
@@ -63,10 +64,10 @@ import javax.persistence.Table;
 		public void setPercentagegrowth(int percentagegrowth) {
 			this.percentagegrowth = percentagegrowth;
 		}
-		public int getColorcode() {
+		public String getColorcode() {
 			return colorcode;
 		}
-		public void setColorcode(int colorcode) {
+		public void setColorcode(String colorcode) {
 			this.colorcode = colorcode;
 		}
 		public static long getSerialversionuid() {

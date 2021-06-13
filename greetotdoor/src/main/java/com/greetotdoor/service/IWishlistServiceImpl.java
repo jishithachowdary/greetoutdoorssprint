@@ -1,6 +1,7 @@
 package com.greetotdoor.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,10 +58,10 @@ public class IWishlistServiceImpl implements IWishlistService{
 		return wishDao;
 		
 	}
-	public List<WishDao> findWishlist(int userId){
+	public List<WishDao> findWishlist(String userId){
 		List<WishDao> wishDao=new ArrayList<>();
 		for(WishlistitemEntity w:wr.findAll()) {
-			if(w.getUserId()==userId) {
+			if(w.getUserId().equals(userId)) {
 					WishDao wd=new WishDao();
 					wd.setUid(w.getUserId());
 					wd.setWid(w.getWishListId());
@@ -88,7 +89,7 @@ public class IWishlistServiceImpl implements IWishlistService{
 	public WishDao findWishlistItem(String productId, String userId) {
 		WishDao wd=new WishDao();
 		for(WishlistitemEntity w:wr.findAll()) {
-			if(w.getUserId()==Integer.parseInt(userId)) {
+			if(w.getUserId().equals(userId)) {
 					wd.setUid(w.getUserId());
 					wd.setWid(w.getWishListId());
 					List<ProductDao> p=new ArrayList<>();
@@ -132,19 +133,16 @@ public class IWishlistServiceImpl implements IWishlistService{
 	}
 	public void deleteWishlistItem(String productId, String userId) throws WishlistException{
 		for(WishlistitemEntity w:wr.findAll()) {
-			if(w.getUserId()==Integer.parseInt(userId)) {
+			if(w.getUserId().equals(userId)) {
 				System.out.println("user done");
 				if(w.getProduct().size()==0) {
 					throw new WishlistException("no products in this wish list");
 				}
 				else {
-					for(ProductEntity pe:w.getProduct()) {
-						System.out.println("product entry");
-						if(pe.getProductId().equals(productId)) {
-							System.out.println(pe.getProductId()+" "+productId);
-							w.removeProduct(pe);
-							
-						}
+					Iterator<ProductEntity> it=w.getProduct().iterator();
+					while(it.hasNext()) {
+						ProductEntity pe=it.next();
+						it.remove();
 					}
 				}
 				wr.save(w);
@@ -153,20 +151,17 @@ public class IWishlistServiceImpl implements IWishlistService{
 	}
 	public void deleteWishlist(String userId) throws WishlistException{
 		for(WishlistitemEntity w:wr.findAll()) {
-			if(w.getUserId()==Integer.parseInt(userId)) {
-					if(w.getProduct().size()==0) {
-						wr.deleteById(w.getWishListId());
+			if(w.getUserId().equals(userId)) {
+					if(w.getProduct().size()>0) {
+						w.getProduct().removeAll(w.getProduct());
 					}
-					else {
-						throw new WishlistException("failed to delted please deletd the products associated with this list");
-					}
-				
+					wr.delete(w);
 			}
 		}
 	}
 	public WishlistitemEntity addWishlistItem(WishlistRequest wrequest) throws WishlistException{
 		WishlistitemEntity wl=new WishlistitemEntity();
-		if(ur.findById(wrequest.userId) != null) {
+		if(ur.findByUserId(wrequest.userId) != null) {
 			wl.setUserId(wrequest.userId);
 			wl.setProduct(wrequest.product
 					.stream()

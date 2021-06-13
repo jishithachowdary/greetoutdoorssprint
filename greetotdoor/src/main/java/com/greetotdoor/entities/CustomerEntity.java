@@ -20,61 +20,79 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "CUSTOMER_TABLE")
-@NamedQuery(name="Customer.getById",query="select c from CustomerEntity c,AddressEntity a where a.customer=c")
 public class CustomerEntity implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO,generator = "cus_gen")
 	@SequenceGenerator(name="cus_gen", sequenceName="s_customer", allocationSize=1)
 	@Column(name="CUSTOMER_ID")
-	private int customer_id;		
+	private int customerId;		
 	@Column(name="CUSTOMER_NAME")
-	private String customer_name;
+	private String customerName;
 	@Column(name="MOBILE_NO")
-	private String mobile_no;
+	private String mobileNo;
 	@Column(name="EMAIL")
 	private String email;
 	
 	@OneToMany(mappedBy="customer",fetch=FetchType.LAZY,cascade = CascadeType.ALL)
 	private Set<AddressEntity> address=new HashSet<>();
-
-	//getters and setters
+	public CustomerEntity() {
+		
+	}
 	
-	public int getCustomer_id() {
-		return customer_id;
+	public CustomerEntity(int customerId,String customerName, String mobileNo, String email,
+			Set<AddressEntity> address) {
+		this.customerId=customerId;
+		this.customerName = customerName;
+		this.mobileNo = mobileNo;
+		this.email = email;
+		this.address = address;
 	}
-	public void setCustomer_id(int customer_id) {
-		this.customer_id = customer_id;
+	//getters and setters
+	public int getCustomerId() {
+		return customerId;
 	}
-	public String getCustomer_name() {
-		return customer_name;
+
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
 	}
-	public void setCustomer_name(String customer_name) {
-		this.customer_name = customer_name;
+
+	public String getCustomerName() {
+		return customerName;
 	}
-	public String getMobile_no() {
-		return mobile_no;
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
-	public void setMobile_no(String mobile_no) {
-		this.mobile_no = mobile_no;
+
+	public String getMobileNo() {
+		return mobileNo;
 	}
+
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public Set<AddressEntity> getAddress() {
 		return address;
 	}
+
 	public void setAddress(Set<AddressEntity> address) {
 		this.address = address;
 		for(AddressEntity a:address) {
 			a.setCustomer(this);
 		}
 	}
-	public void addAddress(AddressEntity address) {
-		this.address.add(address);
-	}
 
+	
+	
+	
 
 }

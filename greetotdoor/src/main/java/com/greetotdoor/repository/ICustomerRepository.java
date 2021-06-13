@@ -10,7 +10,5 @@ import com.greetotdoor.entities.CustomerEntity;
 
 @Service
 public interface ICustomerRepository extends JpaRepository<CustomerEntity,Integer>{
-	 @Query(name="Customer.getById")
-	 CustomerEntity viewCustomer(CustomerEntity customer);
-
+		
 }

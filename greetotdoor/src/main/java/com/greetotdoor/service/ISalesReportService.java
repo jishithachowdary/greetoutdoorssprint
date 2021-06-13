@@ -11,11 +11,12 @@ public interface ISalesReportService {
 
 	public SalesReport findSalesReportByProductId(String productId);
 
-	public void updateProductReport(SalesReport salesReportEntity);
+	public void updateProductReport(SalesReport salesReportEntity) throws SalesReportException;
 
 	public void deleteAllSalesReport() throws SalesReportException;
 
 	public void deleteSalesReportById(int salesReportId) throws SalesReportException;
+	public void addSalesReport(SalesReport salesReportEntity) ;
 
 }
 

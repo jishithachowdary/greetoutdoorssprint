@@ -4,18 +4,27 @@ import java.util.List;
 
 public class WishDao {
 	private int wid;
-	private int uid;
+	private String uid;
 	private List<ProductDao> products;
+	public WishDao() {
+		
+	}
+	public WishDao(int wid, String uid, List<ProductDao> products) {
+		super();
+		this.wid = wid;
+		this.uid = uid;
+		this.products = products;
+	}
 	public int getWid() {
 		return wid;
 	}
 	public void setWid(int wid) {
 		this.wid = wid;
 	}
-	public int getUid() {
+	public String getUid() {
 		return uid;
 	}
-	public void setUid(int uid) {
+	public void setUid(String uid) {
 		this.uid = uid;
 	}
 	public List<ProductDao> getProducts() {
